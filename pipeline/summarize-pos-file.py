@@ -12,6 +12,7 @@ def read_pos_file(filename):
         except ValueError:
             read = line
             posns = []
+            continue
             
         yield read, posns
 
