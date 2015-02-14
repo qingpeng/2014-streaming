@@ -162,4 +162,4 @@ ecoli-reads.raw.cor.sam.pos: ecoli-reads.raw.cor.sam
 	./sam-scan.py ecoliMG1655.fa ecoli-reads.raw.cor.sam -o ecoli-reads.raw.cor.sam.pos
 
 quake-ecoli-raw-cor.txt: ecoli-reads.raw.cor.sam.pos
-	./summarize-pos-file.py ecoli-reads.raw.cor.sam.pos ecoli-mapped.dn.cor.fq.gz > quake-ecoli-raw-cor.txt
+	./summarize-pos-file.py ecoli-reads.raw.cor.sam.pos ecoli-mapped.raw.cor.fq.gz > quake-ecoli-raw-cor.txt
