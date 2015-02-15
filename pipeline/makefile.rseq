@@ -3,7 +3,7 @@ rseq: rseq_compare2 rseq_compare4 rseq_compare5 \
 	rseq-mapped.fq.gz.errhist rseq-reads.sam.errhist \
 	rseq-mapped.fq.gz.errhist2 \
 	rseq-reads.hicov.cor.fq.gz \
-	rseq_compare6 rseq-reads.hicov.fq.keep.hist \
+	rseq_compare6 rseq-reads.hicov.fq.keep.hist rseq_compare5b.txt \
 	rseq-mapped.fq.gz.subset.0.errhist \
 	rseq-mapped.fq.gz.subset.1.errhist \
 	rseq-mapped.fq.gz.subset.2.errhist \

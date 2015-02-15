@@ -765,7 +765,7 @@ the reads are examined twice, and on the metagenome, 380 of 2347
 \hline
 & {\bf \em E. coli} & {\bf mouse mRNAseq} & {\bf mock metagenome} \\
 \hline
-Number of passes & xx & yy & zz \\
+Number of passes         & 1.33      & 1.48         & 1.92 \\
 \hline
 Perfect detection (TP)   & 810,896   & 1,162,662  & 116,833  \\
 No errors (TN)           & 2,781,961 & 3,552,261  & 4,717,494 \\
@@ -799,8 +799,8 @@ respectively.  And for the mock metagenome, we have a sensitivity of
 specificity of 2.4\% for both streaming and two-pass (compare
 Table~\ref{tab:spectra_streaming_real} and
 Table~\ref{tab:spectra_variable_real}).  However, the streaming
-approach examined the {\em E. coli} reads only XX times, the mRNAseq
-reads YY times, and the metagenome reads ZZ times on average.
+approach examined the {\em E. coli} data only 1.33 times, the mRNAseq
+data 1.48 times, and the metagenome data 1.92 times on average.
 
 \subsection{A streaming algorithm can be used for error trimming}
 
@@ -842,17 +842,21 @@ were eliminated, bringing the overall per-base error rate from 0.62\% to
 56,800 bases (34.34\%).  The initial error rate was 0.65\% and the
 final error rate was 0.07\%.
 
+% ecoli-report-untrim.txt, ecoli-report-trim.txt
+% rseq-reads-hicov-sam-mismatches-report.txt
+% podar_
+% podar_compare5b
+
 \begin{table}
 \begin{tabular}{|l|c|c|c|c|}
 \hline
 Data set        & pre-trim error & \% bp trim & \% reads trim & post-trim error \\
 \hline
-{\em E. coli}   & 1.60\%         &                  &             & 0.05\% \\
-Mock metagenome & 0.32\%         &                  &             & 0.30\% \\
-mouse mRNAseq   & 2.07\%         &                  &             & 1.84\% \\
-(high coverage only) & 1.61\%    &                  &             & 0.66\% \\
-mock metagenome &                &                  &             &        \\
-(high coverage only) &           &    @@              &             &        \\
+{\em E. coli}   & -1.60\%         &                  &             & -0.05\% \\
+mouse mRNAseq   & 1.59\%         & 13.9\%           & 19.8\%      & 1.21\% \\
+(high coverage only) & -1.20\%    &                  &             & -0.66\% \\
+Mock metagenome & 0.31\%         &                  &             & 0.28\% \\
+(high coverage only) & 0.16\%          &    @@              &             & 0.07\%       \\
 \hline
 \end{tabular}
 
@@ -1070,16 +1074,16 @@ Table~\ref{tab:full_trimming}).
 \hline
 
 Data set             & mouse mRNAseq      & mock metagenome \\
-Coverage cutoff      & 20                 & 10 \\
+Coverage cutoff      & 20                 & 20 \\
 \hline
-Total reads          & 36,882,401         & 50,328,673 \\
-Total bp             & 2,803,062,476      & 5,083,195,973 \\
-High-coverage reads  & 33,451,281         & 35,753,645 \\
-Number of passes     & 1.23               & 1.29 \\
-\% reads trim        & 27\%               & 5\% \\
-\% bp trim           & 17.82\%            & 2.3\% \\
-Pre-trim error rate  & 1.24\%             & 0.28\% \\
-Post-trim error rate & 0.73\%             & 0.17\% \\
+Total reads          & --         & 103.2m \\
+Total bp             & --      & 10.4 Gbp \\
+High-coverage reads  & --         & 91.9m \\
+Number of passes     & --               & 1.43 \\
+\% reads trim        & \%               & 10.1\% \\
+\% bp trim           & \%            & 4.03\% \\
+Pre-trim error rate  & 1.88\%             & 0.27\% \\
+Post-trim error rate & 1.29\%             & 0.15\% \\
 \hline
 \end{tabular}
 

@@ -2,6 +2,7 @@ ECOLI_K=20
 
 ecoli: ecoli_compare2.txt ecoli_compare2_nodn.txt ecoli-mapped.fq.gz.errhist \
 	ecoli-reads.sam.errhist ecoli_compare4.txt \
+    ecoli-report-trim.txt ecoli-report-untrim.txt \
 	ecoli-mapped.fq.gz.subset.0.errhist \
 	ecoli-mapped.fq.gz.subset.1.errhist \
 	ecoli-mapped.fq.gz.subset.2.errhist \
@@ -77,7 +78,7 @@ ecoli-abundtrim.sam.pos: ecoli-abundtrim.sam
 ecoli-report-untrim.txt: ecoli-reads.sam.pos ecoli-mapped.fq.gz
 	./summarize-pos-file.py ecoli-reads.sam.pos ecoli-mapped.fq.gz > ecoli-report-untrim.txt
 
-# ecoli-report-untrim.txt - a report on the error rate of the k-mer
+# ecoli-report-trim.txt - a report on the error rate of the k-mer
 # abundance trimmed reads, based on mapping to the reference.
 ecoli-report-trim.txt: ecoli-abundtrim.sam.pos ecoli-mapped.fq.gz.abundtrim
 	./summarize-pos-file.py ecoli-abundtrim.sam.pos ecoli-mapped.fq.gz.abundtrim > ecoli-report-trim.txt
