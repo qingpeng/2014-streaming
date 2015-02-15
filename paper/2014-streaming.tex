@@ -843,7 +843,8 @@ were eliminated, bringing the overall per-base error rate from 0.62\% to
 final error rate was 0.07\%.
 
 % ecoli-report-untrim.txt, ecoli-report-trim.txt
-% rseq-reads-hicov-sam-mismatches-report.txt
+% rseq_compare5.txt
+% rseq_compare5b.txt
 % podar_
 % podar_compare5b
 
@@ -852,11 +853,11 @@ final error rate was 0.07\%.
 \hline
 Data set        & pre-trim error & \% bp trim & \% reads trim & post-trim error \\
 \hline
-{\em E. coli}   & -1.60\%         &                  &             & -0.05\% \\
+{\em E. coli}   & 1.49\%         & 11.05\%          & 41.9\%      & 0.07\% \\
 mouse mRNAseq   & 1.59\%         & 13.9\%           & 19.8\%      & 1.21\% \\
-(high coverage only) & -1.20\%    &                  &             & -0.66\% \\
-Mock metagenome & 0.31\%         &                  &             & 0.28\% \\
-(high coverage only) & 0.16\%          &    @@              &             & 0.07\%       \\
+(high coverage only) & 1.20\%    & 20.4\%           & 29.0\%      & 0.42\% \\
+Mock metagenome & 0.31\%         & 0.4\%            & 1.1\%       & 0.28\% \\
+(high coverage only) & 0.16\%    & 1.4\%            & 3.5\%       & 0.07\% \\
 \hline
 \end{tabular}
 
@@ -1069,21 +1070,23 @@ Table~\ref{tab:trimming}), when we consider the full data sets the
 majority of reads are examined only once (see ``Number of passes'',
 Table~\ref{tab:full_trimming}).
 
+% cmouse-compare5-post.txt  cpodar-compare5-post.txt
+% cmouse-compare5-pre.txt   cpodar-compare5-pre.txt
+
 \begin{table}
 \begin{tabular}{|l|c|c|c|c|}
 \hline
 
 Data set             & mouse mRNAseq      & mock metagenome \\
-Coverage cutoff      & 20                 & 20 \\
 \hline
-Total reads          & --         & 103.2m \\
-Total bp             & --      & 10.4 Gbp \\
-High-coverage reads  & --         & 91.9m \\
-Number of passes     & --               & 1.43 \\
-\% reads trim        & \%               & 10.1\% \\
-\% bp trim           & \%            & 4.03\% \\
-Pre-trim error rate  & 1.88\%             & 0.27\% \\
-Post-trim error rate & 1.29\%             & 0.15\% \\
+Total reads          & 81.3m         & 103.2m \\
+Total bp             & 6.18 Gbp      & 10.4 Gbp \\
+High-coverage reads  & 74.6m         & 91.9m \\
+Number of passes     & 1.18          & 1.43 \\
+\% reads trim        & 25.0\%        & 10.1\% \\
+\% bp trim           & 13.74\%       & 4.03\% \\
+Pre-trim error rate  & 1.89\%        & 0.27\% \\
+Post-trim error rate & 1.30\%        & 0.15\% \\
 \hline
 \end{tabular}
 
