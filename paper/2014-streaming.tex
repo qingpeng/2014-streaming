@@ -854,15 +854,19 @@ final error rate was 0.07\%.
 Data set        & pre-trim error & \% bp trim & \% reads trim & post-trim error \\
 \hline
 {\em E. coli}   & 1.49\%         & 11.05\%          & 41.9\%      & 0.07\% \\
+\hline
 mouse mRNAseq   & 1.59\%         & 13.9\%           & 19.8\%      & 1.21\% \\
 (high coverage only) & 1.20\%    & 20.4\%           & 29.0\%      & 0.42\% \\
+\hline
 Mock metagenome & 0.31\%         & 0.4\%            & 1.1\%       & 0.28\% \\
 (high coverage only) & 0.16\%    & 1.4\%            & 3.5\%       & 0.07\% \\
 \hline
 \end{tabular}
 
 \caption{{\bf A summary of trimming statistics for streaming error trimming.
-Error rates before and after trimming were estimated by mapping mismatches.}}
+Error rates before and after trimming were estimated by mapping. ``High
+coverage'' numbers refer to the subset of reads with $C \geq 20$ that were
+subject to analysis.}}
 \label{tab:trimming}
 \end{table}
 
@@ -1022,12 +1026,11 @@ for read in data:
       add_read_to_table(read, table)
       save(read)
 \end{verbatim}
-This is a single-pass algorithm that, if at least one read has
-coverage equal to or greater than {\tt DESIRED}, is sublinear in
-space \cite{Brown2012}.  (Technically, that read must also have
-an error, if {\tt table} is counting k-mers.)  In practice, for data
-sets with an average coverage higher than {\tt DESIRED}, the majority
-of individual reads will not be collected (see Figure~\ref{fig:saturation}).
+This is a single-pass algorithm that is sublinear in space when at
+least one error-containing read has coverage equal to or greater than
+{\tt DESIRED} \cite{Brown2012}. In practice, for data sets with an
+average coverage higher than {\tt DESIRED}, the majority of individual
+reads will not be collected (see Figure~\ref{fig:saturation}).
 
 The modifications to the algorithm for {\em streaming} are as follows:
 \begin{verbatim}
@@ -1091,7 +1094,7 @@ Post-trim error rate & 1.30\%        & 0.15\% \\
 \end{tabular}
 
 \caption{{\bf Results of streaming error trimming on complete data sets.
-Error rates before and after trimming were estimated by mapping mismatches.}}
+Error rates before and after trimming were estimated by mapping.}}
 \label{tab:full_trimming}
 \end{table}
 

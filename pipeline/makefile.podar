@@ -32,7 +32,7 @@ podar_compare4.txt: podar-stream-mismatches.pos podar-reads.sam.pos
 	./compare-pos.py -V podar-stream-mismatches.pos podar-reads.sam.pos podar-mapped.fq.gz > podar_compare4.txt
 
 podar-mapped.fq.gz.abundtrim: podar-mapped.fq.gz
-	$(KHMER)/sandbox/trim-low-abund.py -V -k 20 -Z $(PODAR_COV) -C 3 -x 4e8 -N 4 podar-mapped.fq.gz
+	trim-low-abund.py -V -k 20 -Z $(PODAR_COV) -C 3 -x 4e8 -N 4 podar-mapped.fq.gz --ignore-pairs
 
 podar-abundtrim.sam: podar-mapped.fq.gz.abundtrim
 	bowtie2 -p 4 -x podar -U podar-mapped.fq.gz.abundtrim -S podar-abundtrim.sam
@@ -71,7 +71,7 @@ podar-reads.hicov.fq.sam.covdict: podar-reads.hicov.fq.sam
 	./sam-scan-to-coverage-dict.py podar-ref.fa podar-reads.hicov.fq.sam podar-reads.hicov.fq.sam.covdict podar-reads.hicov.fq.sam.covhist
 
 podar-reads.hicov.fq.abundtrim: podar-reads.hicov.fq
-	$(KHMER)/sandbox/trim-low-abund.py -V -k 20 -C $(PODAR_COV) -C 3 -x 1e8 -N 4 podar-reads.hicov.fq
+	trim-low-abund.py -V -k 20 -C $(PODAR_COV) -C 3 -x 1e8 -N 4 podar-reads.hicov.fq --ignore-pairs
 
 podar-hicov-abundtrim.sam: podar-reads.hicov.fq.abundtrim
 	bowtie2 -p 4 -x podar -U podar-reads.hicov.fq.abundtrim -S podar-hicov-abundtrim.sam

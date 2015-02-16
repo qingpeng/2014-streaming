@@ -29,7 +29,7 @@ cpodar-reads.sam.pos: cpodar-reads.sam podar-ref.fa
 	./sam-scan.py podar-ref.fa cpodar-reads.sam > cpodar-reads.sam.pos
 
 cpodar-mapped.fq.gz.abundtrim: cpodar-mapped.fq.gz
-	$(KHMER)/sandbox/trim-low-abund.py -V -k 20 -Z 20 -C 3 -x 2e9 -N 4 cpodar-mapped.fq.gz
+	trim-low-abund.py -V -k 20 -Z 20 -C 3 -x 2e9 -N 4 cpodar-mapped.fq.gz --ignore-pairs
 
 cpodar-compare5-pre.txt: cpodar-mapped.fq.gz
 	./summarize-pos-file.py cpodar-reads.sam.pos cpodar-mapped.fq.gz > cpodar-compare5-pre.txt
@@ -56,7 +56,7 @@ cmouse-reads.sam.pos: cmouse-reads.sam rna.fa
 	./sam-scan.py rna.fa cmouse-reads.sam > cmouse-reads.sam.pos
 
 cmouse-mapped.fq.gz.abundtrim: cmouse-mapped.fq.gz
-	$(KHMER)/sandbox/trim-low-abund.py -V -k 20 -Z 20 -C 3 -x 4e8 -N 4 cmouse-mapped.fq.gz
+	trim-low-abund.py -V -k 20 -Z 20 -C 3 -x 4e8 -N 4 cmouse-mapped.fq.gz --ignore-pairs
 
 cmouse-compare5-pre.txt: cmouse-mapped.fq.gz
 	./summarize-pos-file.py cmouse-reads.sam.pos cmouse-mapped.fq.gz > cmouse-compare5-pre.txt

@@ -61,7 +61,7 @@ ecoli_compare4.txt: ecoli-stream-mismatches.pos ecoli-reads.sam.pos
 # ecoli-mapped.fq.gz.abundtrim contains the k-mer abundance trimmed
 # reads, produced by trim-low-abund (streaming k-mer abundance trimming)
 ecoli-mapped.fq.gz.abundtrim: ecoli-mapped.fq.gz
-	$(KHMER)/sandbox/trim-low-abund.py -k $(ECOLI_K) -Z 20 -C 3 -x 1e8 -N 4 ecoli-mapped.fq.gz
+	trim-low-abund.py -k $(ECOLI_K) -Z 20 -C 3 -x 1e8 -N 4 ecoli-mapped.fq.gz --ignore-pairs
 
 # ecoli-abundtrim.sam is the mapping of the abundance-trimmed reads to the
 # reference genome.

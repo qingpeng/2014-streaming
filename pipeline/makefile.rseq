@@ -85,7 +85,7 @@ rseq_compare5: rseq_compare5.txt
 	cat rseq_compare5.txt
 
 rseq-reads.hicov.fq.abundtrim: rseq-reads.hicov.fq
-	$(KHMER)/sandbox/trim-low-abund.py -V -k 20 -Z 20 -C 3 -x 1e8 -N 4 rseq-reads.hicov.fq
+	trim-low-abund.py -V -k 20 -Z 20 -C 3 -x 1e8 -N 4 rseq-reads.hicov.fq --ignore-pairs
 
 rseq-hicov-abundtrim.sam: rseq-reads.hicov.fq.abundtrim
 	bowtie2 -p 4 -x rseq -U rseq-reads.hicov.fq.abundtrim -S rseq-hicov-abundtrim.sam
@@ -101,7 +101,7 @@ rseq_compare5b: rseq_compare5b.txt
 	cat rseq_compare5b.txt
 
 rseq-mapped.fq.gz.abundtrim: rseq-mapped.fq.gz
-	$(KHMER)/sandbox/trim-low-abund.py -V -k 20 -Z 20 -C 3 -x 1e8 -N 4 rseq-mapped.fq.gz
+	trim-low-abund.py -V -k 20 -Z 20 -C 3 -x 1e8 -N 4 rseq-mapped.fq.gz --ignore-pairs
 
 rseq-abundtrim.sam: rseq-mapped.fq.gz.abundtrim \
 	rseq-reads.sam
