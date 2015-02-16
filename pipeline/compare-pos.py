@@ -155,7 +155,7 @@ def main():
     print 'FN:', fn
 
     print 'sensitivity:', tp / float(tp + fn)
-    print 'specificity:', tp / float(tn + fp)
+    print 'specificity:', tn / float(tn + fp)
 
     assert n <= total_reads
     assert o <= total_reads
