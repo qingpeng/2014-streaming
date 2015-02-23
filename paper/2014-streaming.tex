@@ -904,41 +904,22 @@ Mock metagenome & 0.31\%         & 0.4\%            & 1.1\%       & 0.28\% \\
 % fp rate estimated to be 0.004
 
 Applying the semi-streaming error trimming to the {\em E. coli} MG1655 data
-set used in section XXX, we trimmed 2.0m reads and removed 98,903
+set used in section XXX, we trimmed 2.0m reads and removed 50,281
 reads entirely.  Of 8.0m errors, all but 203,345 were removed,
-bringing the error rate from 1.60\% to 0.05\%.  Trimming discarded 61
-Mbp of the original 500 Mbp (12.4\%).
-
-% output of 'make rseq-mapped.fq.gz.abundtrim'
-%
-% read 791687 reads, 60168212 bp
-% wrote 763468 reads, 56846899 bp
-% removed 28219 reads and trimmed 70260 reads
-% looked at 617297 reads twice
-% trimmed or removed 5.52% of bases (3321313 total)
-% skipped 531046 reads/40359496 bases because of low coverage
+bringing the error rate from 1.49\% to 0.07\%.  Trimming discarded 53
+Mbp of the original 486 Mbp (11.1\%).
 
 % rseq_compare5.txt
 % rseq_compare5b.txt
 
-% output of 'make podar-mapped.fq.gz.abundtrim'
-% 
-% read 4667491 reads, 471416591 bp
-% wrote 4661668 reads, 470184476 bp
-% removed 5823 reads and trimmed 21231 reads
-% looked at 4565119 reads twice
-% trimmed or removed 0.26% of bases (1232115 total)
-% skipped 4262595 reads/430522095 bases because of low coverage
-
 % make podar_compare5
 
-% @ CTB update numbers
-On the mouse mRNAseq data set, semi-streaming error trimming removed 28,219
-reads and trimmed 70,260 reads, removing 5.52\% of the total bases,
+On the mouse mRNAseq data set, semi-streaming error trimming removed 919,327
+reads and trimmed 648,322 reads, removing 19.8% of the total bases,
 bringing the overall error rate from 1.59\% to 1.21\%.  When we measured
 only the error rate in the high-coverage reads, trimming brought the
 error rate from 1.20\% to 0.42\%.  On the mock metagenome data set,
-5823 reads were removed and 21,231 reads were trimmed, removing 0.26\%
+27,554 reads were removed and 171,705 reads were trimmed, removing 0.36\%
 of bases; this low percentage is because of the very low coverage of
 most of the reads in this data set.
 
