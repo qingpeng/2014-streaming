@@ -1,10 +1,5 @@
 % reviewers: Zam, Jared, Heng Li, Mike Schatz?, lighter
-% @look at torng comments
 % @funding acks, torng, charles, sebastian.
-% @fix err spectrum figure
-
-% @look up Alon 1996 paper from melsted
-% @``curse of sequencing'' Roberts 2011, from melsted
 
 \documentclass{article}
 \usepackage{graphicx}
@@ -44,10 +39,12 @@ $\ast$ E-mail: ctbrown@ucdavis.edu
   analysis of DNA sequencing reads, together with a derivative
   approach that is fully streaming.  The approach can also be applied
   to genomic, transcriptomic, and metagenomic data sets.  We develop
-  two tools based on these approaches, semi-streaming k-mer error
-  trimming and streaming sublinear error profile analysis.  These
-  tools are implemented in the khmer software package, which is freely
-  available under the BSD License at github.com/ged-lab/khmer/.}
+  two tools for short-read analysis based on these approaches, a
+  method for semi-streaming k-mer-based error trimming, and a method
+  for the analysis of error profiles in short reads using a streaming
+  sublinear approach. These tools are implemented in the khmer
+  software package, which is freely available under the BSD License at
+  github.com/ged-lab/khmer/.}
 
 \section{Introduction}
 
@@ -112,7 +109,18 @@ license.
 
 \subsection{Making synthetic data sets}
 
-@@
+We computationally constructed three small short-read DNA data sets
+for initial exploration of ideas.  All synthetic sequences have
+equiprobable A/C/G/T.  All synthetic reads are 100bp long and were
+sampled with 1\% error.  The ``simple genome'' data set consists of
+1000 reads chosen uniformly from a 1 kb randomly constructed genome.
+The ``simple transcriptome'' data set consists of 568 reads chosen
+uniformly from synthetic transcripts containing different subsets of
+four 250-base exons, with expression levels varying by a factor of 30
+from minimum to maximum.  The ``simple metagenome'' data set consists
+of reads sampled from three different 500 bp sequences, across 30 fold
+variation in abundance.  In all three cases, the errors during read
+sampling were recorded for comparison with predictions.
 
 \subsection{Real data sets}
 
@@ -477,7 +485,7 @@ coverage reads in the same data set. This variability in coverage
 confounds naive spectral analysis for two reasons: first, erroneous
 k-mers from very high abundance regions can accumulate and increase in
 abundance over the threshold for trusted k-mers, thus appearing to be
-correct; and second, correct reads from low coverage regions yield
+correct (the so-called ``curse of deep sequencing'' \cite{Roberts2011}); and second, correct reads from low coverage regions yield
 k-mers below the trusted k-mer threshold that appear to be incorrect.
 In practice, therefore, error analysis for metagenomic and
 transcriptome data uses other approaches than direct spectral error
@@ -985,7 +993,6 @@ small sample of sequencing data}
     based on all mapped reads.  The y values for the k-mer spectral
     analyses are scaled by a factor of four for ease of comparison.}}
 \label{fig:ecoli_err}
-% @CTB legend broken
 \end{figure}
 
 \begin{figure}[!ht]
@@ -1037,7 +1044,7 @@ for comparison.
 
 In the {\em E. coli} data set (Figure~\ref{fig:ecoli_err}), we see the
 increase in error rate towards the 3' end of the gene that is
-characteristic of Illumina sequencing \cite{@errorfoo}.  All three error
+characteristic of Illumina sequencing \cite{biases}.  All three error
 profiles agree in shape (Pearson's correlation of 0.99 between each
 pair) although they are offset considerably in absolute magnitude.
 The k-mer error profile was calculated from the first 850,000 reads, but
