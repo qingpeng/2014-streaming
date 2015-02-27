@@ -1,14 +1,8 @@
-% reviewers: Zam, Jared?
+% reviewers: Zam, Jared, Heng Li, Mike Schatz?, lighter
+% @look at torng comments
 
-% look up Alon 1996 paper from melsted
-% ``curse of sequencing'' Roberts 2011, from melsted
-
-% TODO:
-% apply to larger data sets - ask Sherine to configure, run, write.
-%% examine lousy specificity
-
-% Writing:
-% address lousy specificity, viz. streaming trimming
+% @look up Alon 1996 paper from melsted
+% @``curse of sequencing'' Roberts 2011, from melsted
 
 \documentclass{article}
 \usepackage{graphicx}
@@ -27,14 +21,15 @@ short DNA sequencing reads}
 
 K-mer spectral analysis is a powerful approach to error detection and
 correction in shotgun sequencing data that uses k-mer abundances to
-determine likely errors \cite{Pevzner2001}.  Approaches derived from
-spectral analysis can be very accurate: spectral error correction
-achieve high accuracy, and Zhang et al. (2014) show that spectral
-k-mer trimming is considerably more effective at removing errors than
-quality score-based approaches \cite{correctors,Zhang2014}.  However,
-spectral analysis is also very compute intensive; most implementations
-count all the k-mers in sequencing data sets, which can be memory- or
-I/O-intensive for large data sets \cite{Zhang2014}.
+find likely errors in the data \cite{Pevzner2001}.  Approaches derived
+from spectral analysis can be very effective: spectral error
+correction achieves high accuracy, and Zhang et al. (2014) show that
+spectral k-mer trimming is considerably more effective at removing
+errors than quality score-based approaches
+\cite{@correctors,Zhang2014}.  However, spectral analysis is also very
+compute intensive: most implementations count all the k-mers in
+sequencing data sets, which can be memory- or I/O-intensive for large
+data sets \cite{Zhang2014}.
 
 Streaming and semi-streaming algorithms can offer improved algorithmic
 and computational efficiency in the analysis of large data sets
@@ -42,34 +37,36 @@ and computational efficiency in the analysis of large data sets
 examine the data only once, and have small, fixed memory usage.
 Semi-streaming algorithms may examine the data a few times, with
 memory requirements that scale sublinearly with the size of the input
-data \cite{Feigenbaum2005}.  Streaming and semi-streaming algorithms
-have not been applied to k-mer spectral analysis of sequencing reads,
-although Melsted et al. developed an effective streaming algorithm for
+data \cite{Feigenbaum2005}.  Streaming algorithms have not been
+applied to k-mer spectral analysis of sequencing reads, although
+Melsted et al. developed an effective streaming algorithm for
 calculating {\em aggregate} statistics of k-mer distributions from
-sequencing data \cite{Melsted2014}.
-% @express
+sequencing data \cite{Melsted2014}, and the Lighter error corrector
+uses a low-memory semi-streaming multipass approach to do efficient
+error correction.
+% mention express? No, not really k-mers.
 
 Brown et al. (2012) introduced a streaming algorithm for downsampling
 read data sets to normalize read coverage spectra, termed ``digital
-normalization'' (abbreviated as ``diginorm'') \cite{Brown2012}.  This
-procedure estimates the k-mer coverage of each read in a stream using
-an online algorithm. Reads above a certain estimated coverage are set
-aside and their k-mers are not tracked.  The diginorm algorithm only
-examines the data once, and counts only the k-mers in retained reads,
-leading to sublinear memory usage for high-coverage data sets
+normalization'' (or ``diginorm'') \cite{Brown2012}.  This procedure
+estimates the k-mer coverage of each read in a stream using an online
+algorithm. Reads above a certain estimated coverage are set aside and
+their k-mers are not tracked.  The diginorm algorithm only examines
+the data once, and counts only the k-mers in retained reads, leading
+to sublinear memory usage for high-coverage data sets
 \cite{Brown2012}.
 
 Here we develop a semi-streaming algorithm for k-mer spectral
 analysis, based on digital normalization, that can detect and remove
 errors in sequencing reads.  This algorithm operates in sublinear
-memory, and examines the data at most twice.  The approach offers a
-general framework for streaming sequence analysis and could be used
-for error correction and variant calling.  Moreover, the approach can
-be applied generically to data sets with variable sequencing coverage
-such as transcriptomes, metagenomes, and amplified genomic DNA.  We
-also provide an approach for estimating per-position sequencing error
-rates in reads that operates in fixed memory and only examines part of
-the input data for large data sets.
+memory with respect to the input data, and examines the data at most
+twice.  The approach offers a general framework for streaming sequence
+analysis and could be used for error correction and variant calling.
+Moreover, the approach can be applied generically to data sets with
+variable sequencing coverage such as transcriptomes, metagenomes, and
+amplified genomic DNA.  We also provide a fully streaming approach for
+estimating per-position sequencing error rates in reads that operates
+in fixed memory and only examines part of the input data.
 
 \section{Methods}
 
@@ -83,17 +80,21 @@ license.
 
 \subsection{Making synthetic data sets}
 
+@@
+
 \subsection{Real data sets}
+
+@@
 
 Prior to analysis, we eliminated any read with an 'N' in it and
 filtered the reads by mapping to the known references.
 
 \subsection{K-mer cardinality statistics}
 
-K-mer counts in Table \ref{tab:kmer_counts} were calculated using
-the HyperLogLog cardinality counting algorithm @cite.
-The implementation used was in khmer, {\tt sandbox/unique-kmers.py},
-with the default error rate of 0.01.
+K-mer counts in Table \ref{tab:kmer_counts} were calculated using the
+HyperLogLog cardinality counting algorithm @cite.  The implementation
+used is implemented in khmer, script {\tt sandbox/unique-kmers.py},
+using the default error rate of 0.01.
 
 \subsection{K-mer spectral analysis}
 
@@ -108,25 +109,30 @@ function {\tt find\_spectral\_error\_positions}. We used {\tt
   report-errors-by-read.py} to predict errors on normalized data, and
 {\tt calc-errors-few-pass.py} to do semi-streaming error analysis;
 both scripts are in {\tt 2014-streaming/pipeline/}.  Variable coverage
-error analysis is enabled with the {\tt -V} parameter to both scripts.
+error analysis was enabled with the {\tt -V} parameter to both scripts.
 
 \subsection{Digital normalization}
 
 We ran digital normalization on all data sets using khmer's {\tt
   normalize-by-median.py} script, with a k-mer size of 20 and a target
-coverage of 20.  Memory parameters were chosen for each data set so
-that the false positive rate was under 1\%, below which it has no
-significant effect on outcomes \cite{Zhang2014}.
+coverage of 20; these parameters have been shown to yield good
+performance for assembly prefiltering \cite{Brown2012,Lowe2015}.
+khmer relies on a memory efficient Count-Min Sketch data structure
+that yields occasional inaccurate counts; memory parameters were
+chosen for each data set so that the false positive rate was under
+1\%, below which it has no significant effect on outcomes
+\cite{Zhang2014}.
 
 \subsection{Read mapping and error correction}
 
 We used Quake v0.3.5, Jellyfish 1.1.11, Boost 1.57.0, and bowtie2
-v2.1.0 to generate results.  {\tt bowtie2} was run with default
-parameters.  Quake's {\tt count-qmers} was used to generate a k-mer
-count with {\tt -q 33 -k 14}, and {\tt correct} was also run with {\tt
-  -q 33 -k 14}.  The correction threshold ({\tt -c}) was chosen
-automatically by Quake and was 7.94 for {\em E. coli} diginorm, 7.2
-for {\em E. coli} original, and 6.26 for .
+v2.1.0 to generate results (@cite).  {\tt bowtie2} was run with
+default parameters.  Quake's {\tt count-qmers} was used to generate a
+k-mer count with {\tt -q 33 -k 14}, and {\tt correct} was also run
+with {\tt -q 33 -k 14}.  The correction threshold ({\tt -c}) was
+chosen automatically by Quake as per the manual, and was 7.94 for {\em
+  E. coli} diginorm, 7.2 for {\em E. coli} original, and 6.26 for
+the high-coverage mRNAseq sample.
 
 \subsection{Semi-streaming error analysis and trimming}
 
@@ -141,6 +147,8 @@ error trimming, with the same parameters as above.  The khmer script
 error analysis with default parameters.  The pipeline script {\tt
   report-errhist-2pass.py} was used for comparison purposes.
 
+@methods for calc-error-profile
+
 \section{Results}
 
 \subsection{Coverage-normalized data can be used to locate
@@ -153,8 +161,9 @@ short read data using counts from digitally normalized data. This
 would allow us to take advantage of the space savings of digital
 normalization when storing and examining k-mer counts.  We tested this
 on a synthetic data set and an {\em E. coli} data set.  We then
-compared the performance of Quake on the original and digitally
-normalized counts from the {\em E. coli data}.
+compared the performance of the Quake genomic error counter on the
+original and digitally normalized counts from the {\em E. coli data}
+\cite{quake}.
 
 \paragraph{Simulated data:}
 We first applied digital normalization to a simulated data set with
@@ -177,7 +186,7 @@ these low-count k-mers.
 \begin{figure}[!ht]
  \centerline{\includegraphics[width=4in]{./figures/kmer-spectrum}}
 \caption{\bf K-mer spectrum of a simple artificial data set, before
-  and after digital normalization.  The peaks at 1 represents
+  and after digital normalization.  The peaks at the origin represents
   erroneous k-mers resulting from (simulated) error; the peaks
   centered at 80 (original) and 20 (diginorm) represent k-mers truly
   present in the genome, which are shared among many reads.}
@@ -196,11 +205,11 @@ these low-count k-mers.
 Name & Number of reads & Description \\
 \hline
 simple genome & 1000 & 1kb genome; no repeats \\
-{\em E. coli} MG1655 & 4,863,836 & Subset of XXXXX \\
+{\em E. coli} MG1655 & 4,863,836 & Subset of @XXXXX \\
 simple transcriptome & 568 & 300:1 high:low abundance; shared exons \\
-mouse mRNAseq & 7,915,339 & Subset of XXXXX \\
+mouse mRNAseq & 7,915,339 & Subset of @XXXXX \\
 simple metagenome & 2,347 & 316:1 high:low abundance species \\
-mock metagenome & 18,805,251 & Subset of XXXX \\
+mock metagenome & 18,805,251 & Subset of @XXXX \\
 \hline
 \end{tabular}
 
@@ -393,9 +402,9 @@ Mock metagenome     & 18,805,251  & 17,353,291 (92.2\%) \\
 While the results above suggest that simple spectral error detection
 works equally well both before and after digital normalization, we
 were concerned that we might lose informative reads and k-mers during
-digital normalization.  To evaluate this, we used Quake to perform
-error correction on the data set using the k-mer counts from the
-digitally normalized reads, and compared the results to error
+digital normalization.  To evaluate this, we used Quake \cite{quake}
+to perform error correction on the data set using the k-mer counts
+from the digitally normalized reads, and compared the results to error
 correction with the entire read data set.
 
 The results of running Quake on the original data using counts from
@@ -427,11 +436,11 @@ correct; and second, correct reads from low coverage regions yield
 k-mers below the trusted k-mer threshold that appear to be incorrect.
 In practice, therefore, error analysis for metagenomic and
 transcriptome data uses other approaches than direct spectral error
-analysis \cite{Medvedev2011,others}.
+analysis \cite{Medvedev2011,@others}.
 
 Digital normalization works on genomic data, with even coverage, as
 well as on variable coverage data such as transcriptome and metagenome
-data \cite{Brown2012, Lowe2015}.  Using the reference-free estimator
+data \cite{Brown2012, Lowe2015, Howe2014}.  Using the reference-free estimator
 of per-read coverage developed for digital normalization, the median
 k-mer abundance within a read, we developed a general approach that
 enables spectral error analysis on variable coverage data.  We then
@@ -480,7 +489,6 @@ or greater.
 \hline
                             & {\bf simple mRNAseq } & {\bf simple metagenome}\\
 \hline
-K-mer coverage threshold    & 20                    & 20 \\
 Total reads                 & 568                   & 2347 \\
 High coverage reads         & 524 (92.3\%)          & 2254 (96.0\%) \\
 \hline
@@ -535,7 +543,6 @@ same parameters; see Table~\ref{tab:a}).
 \hline
 & {\bf mouse mRNAseq} & {\bf mock metagenome} \\
 \hline
-K-mer coverage threshold   & 20                 & 20              \\
 Total reads                & 7,915,339          & 18,805,251       \\
 High coverage reads        & 5,379,738 (68.0\%) & 4,954,341 (26.4\%) \\
 \hline
@@ -597,7 +604,7 @@ coverage data such as mRNAseq (@cite).  Digital normalization, in theory,
 could enable the use of {\em any} spectral error correction algorithm on the
 high coverage components of data sets.
 
-To evaluate this, we used Quake (a genomic error corrector) to correct
+To evaluate this, we again used Quake (a genomic error corrector) to correct
 the high coverage mRNAseq reads using the diginorm counts.  We first
 extracted the 5.4m reads with estimated coverage greater than or equal
 to 20 from the mouse mRNAseq data set, and then digitally normalized
@@ -650,7 +657,7 @@ reads only once.
 Shotgun sequencing oversamples most regions -- for example, for a 100x
 coverage genomic data set, we would expect 50\% or more of the genome
 to be represented by more than 100 reads.  This is a consequence of
-the Poisson-random sampling that underlies shotgun sequencing \cite{Waterman}.
+the Poisson-random sampling that underlies shotgun sequencing \cite{@Waterman}.
 This oversampling provides an opportunity, however: if we
 regard the read data set as a stream of incoming data randomly sampled
 from a pool of molecules, high-abundance species or subsequences
@@ -664,11 +671,11 @@ subset.
 With this in mind, we can adapt the same approaches used in previous
 sections to do {\em semi-streaming} error analysis by detecting and
 analyzing high-coverage reads {\em during} the first pass.  Here we
-again use the median k-mer abundance within a read to estimate read
-coverage \cite{Brown2012}; crucially, this can be done at any point in
-a stream, by using the online k-mer counting functionality of khmer to
-determine the abundance of k-mers seen thus far in the stream
-\cite{Zhang2014}.
+again use the median k-mer abundance of the k-mers in a read to
+estimate that read's abundance \cite{Brown2012}; crucially, this can
+be done at any point in a stream, by using the online k-mer counting
+functionality of khmer to determine the abundance of k-mers seen thus
+far in the stream \cite{Zhang2014}.
 
 The conceptual idea is presented in Figure~\ref{fig:concept}.  On the
 first pass, low-coverage reads would be incorporated into the k-mer
@@ -778,13 +785,13 @@ the reads are examined twice, and on the metagenome, 380 of 2347
 \hline
 Number of passes         & 1.33      & 1.48         & 1.92 \\
 \hline
-Perfect detection (TP)   & 810,896   & 1,162,662  & 116,833  \\
+Perfect detection (TP)   & 810,896   & 1,162,662 (+61,370 & 116,833  \\
 No errors (TN)           & 2,781,961 & 3,552,261  & 4,717,494 \\
-Miscalled errors (FP)    & 1,087,775 & 418,481    & 53,349   \\
-Mispredicted errors (FP) & 177,914   & 30,856     & 49,737  \\
-Missed errors (FN)       & 5263      & 215,478    & 16,928  \\
+Miscalled errors (FP)    & 1,087,775 & 418,481    & 53,349 (-692)  \\
+Mispredicted errors (FP) & 177,914   & 30,856 (+8472)    & 49,737 (+5559)  \\
+Missed errors (FN)       & 5263 (-1227)     & 215,478 (-51,809  & 16,928  \\
 \hline
-Sensitivity            & 99.4\%      & 84.4\%     & 87.3\%  \\
+Sensitivity            & 99.4\%      & 84.4\% (+4.0\%)     & 87.3\%  \\
 Specificity            & 68.7\%      & 88.8\%     & 97.9\%  \\
 \hline
 \end{tabular}
@@ -792,7 +799,7 @@ Specificity            & 68.7\%      & 88.8\%     & 97.9\%  \\
   real data sets as in Table~\ref{tab:ecoli_dn_counts} and
   Table~\ref{tab:spectra_variable_real}.  Number of passes is the average
   number of times each read in the data set was examined; unless noted in
-  parentheses, numbers were within 1\% of non-streaming results. @@@ check this}}
+  parentheses, numbers were within 1\% of non-streaming results.}}
 \label{tab:spectra_streaming_real}
 
 % @CTB check within 1%
@@ -904,7 +911,7 @@ Mock metagenome & 0.31\%         & 0.4\%            & 1.1\%       & 0.28\% \\
 % fp rate estimated to be 0.004
 
 Applying the semi-streaming error trimming to the {\em E. coli} MG1655 data
-set used in section XXX, we trimmed 2.0m reads and removed 50,281
+set used in section @XXX, we trimmed 2.0m reads and removed 50,281
 reads entirely.  Of 8.0m errors, all but 203,345 were removed,
 bringing the error rate from 1.49\% to 0.07\%.  Trimming discarded 53
 Mbp of the original 486 Mbp (11.1\%).
@@ -965,13 +972,12 @@ per-position relative sequencing error for entire data sets
 
 We can adapt the streaming approaches above to efficiently provide
 estimates for {\em subsets} of the data.  The basic idea is to consume
-reads until sufficient data has been collected to calculate error
-rates, and then to calculate error rates for new reads based on the
-k-mer abundances from the consumed reads.  This can be done in one
-pass for data sets with sufficiently high coverage data: as shown
-above (Figure~\ref{fig:saturation}), in some data sets, most of the
-reads will have sufficient coverage to call errors by the time 20\% of
-the data set has been consumed.
+reads until some reads have saturated, and then to calculate error
+rates for new reads from the saturated loci in the graph.  This
+can be done in one pass for data sets with sufficiently high coverage
+data: as shown above (Figure~\ref{fig:saturation}), in some data sets,
+most of the reads will have sufficient coverage to call errors by the
+time 20\% of the data set has been consumed.
 
 Using the same error detection code as above, we implemented a
 sublinear memory/sublinear time algorithm that collects reads until
@@ -988,7 +994,7 @@ for comparison.
 
 In the {\em E. coli} data set (Figure~\ref{fig:ecoli_err}), we see the
 increase in error rate towards the 3' end of the gene that is
-characteristic of Illumina sequencing (cite).  All three error
+characteristic of Illumina sequencing (@cite).  All three error
 profiles agree in shape (Pearson's correlation of 0.99 between each
 pair) although they are offset considerably in absolute magnitude.
 The k-mer error profile was calculated from the first 850,000 reads, but
@@ -1205,7 +1211,7 @@ and metagenome data (Tables~\ref{tab:spectra_variable} and
 correct high-coverage portions of an mRNAseq data set, which yielded
 promising results (Table~\ref{tab:quake_mrna}), although we note
 that the unusually high per-position error rate in this data
-may have led to poor results (Figure~\ref{rseq_error}).
+may have led to poor results (Figure~\ref{fig:rseq_err}).
 
 This again demonstrates that digitally normalized data retains the
 information necessary to error correct high coverage reads, despite
@@ -1221,8 +1227,9 @@ K-mer spectral error detection, trimming, and correction approaches
 are typically implemented as a two-pass offline algorithm, in which
 k-mer counts are collected in a first pass and then reads are
 corrected in a second pass.  While several algorithms that run in
-sublinear memory do exist (e.g. Lighter), these are still offline
-algorithms that require at least two full passes across the data.
+sublinear memory do exist (e.g. Lighter (@cite; what else?), these are
+still offline algorithms that require at least two full passes across
+the data.
 
 In high coverage data sets it is possible to implement a more
 algorithmically efficient approach, by detecting reads that are high
@@ -1310,15 +1317,15 @@ efficient.
 Digital normalization was developed primarily to decrease the memory
 requirements for De Bruijn graph assembly by eliminating erroneous
 k-mers; diginorm can reduce the memory requirements for Velvet by more
-than an order of magnitude.  However, diginorm also alters the
-coverage of the data set, which may affect the performance of
-assemblers or other downstream analysis steps that rely on coverage.
-While streaming error trimming removes at least as many k-mers as
-digital normalization (and generally should remove many more), k-mer
-based error trimming should have a much smaller and far less biasing
-effect on data set coverage.  Moreover, trimming eliminates
-less of the data set than digital normalization.  This may make
-trimming a more palatable pre-filter for assembly than digital
+than an order of magnitude \cite{Brown2012}.  However, diginorm also
+alters the coverage of the data set, which may affect the performance
+of assemblers or other downstream analysis steps that rely on
+coverage.  While streaming error trimming removes at least as many
+k-mers as digital normalization (and generally should remove many
+more), k-mer based error trimming should have a much smaller and far
+less biasing effect on data set coverage.  Moreover, trimming
+eliminates less of the data set than digital normalization.  This may
+make trimming a more palatable pre-filter for assembly than digital
 normalization.
 
 We would caution against using variable coverage error trimming before
