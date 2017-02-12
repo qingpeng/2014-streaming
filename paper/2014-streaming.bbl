@@ -1,0 +1,200 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+\providecommand{\bibAnnoteFile}[1]{%
+  \IfFileExists{#1}{\begin{quotation}\noindent\textsc{Key:} #1\\
+  \textsc{Annotation:}\ \input{#1}\end{quotation}}{}}
+\providecommand{\bibAnnote}[2]{%
+  \begin{quotation}\noindent\textsc{Key:} #1\\
+  \textsc{Annotation:}\ #2\end{quotation}}
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem{Pevzner2001}
+Pevzner PA, Tang H, Waterman MS (2001) An eulerian path approach to dna
+  fragment assembly.
+\newblock Proc Natl Acad Sci U S A 98: 9748-53.
+\bibAnnoteFile{Pevzner2001}
+
+\bibitem{quake}
+Kelley DR, Schatz MC, Salzberg SL (2010) {{Q}uake: quality-aware detection and
+  correction of sequencing errors}.
+\newblock Genome Biol 11: R116.
+\bibAnnoteFile{quake}
+
+\bibitem{Zhang2014}
+Zhang Q, Pell J, Canino-Koning R, Howe AC, Brown CT (2014) These are not the
+  k-mers you are looking for: efficient online k-mer counting using a
+  probabilistic data structure.
+\newblock PLoS ONE 7.
+\bibAnnoteFile{Zhang2014}
+
+\bibitem{Charikar2004}
+Charikar M (2004) {Finding frequent items in data streams}.
+\newblock Theoretical Computer Science 312: 3--15.
+\bibAnnoteFile{Charikar2004}
+
+\bibitem{Cormode2005}
+Cormode G, Muthukrishnan S (2005) {An improved data stream summary: the
+  count-min sketch and its applications}.
+\newblock Journal of Algorithms 55: 58--75.
+\bibAnnoteFile{Cormode2005}
+
+\bibitem{Feigenbaum2005}
+Feigenbaum J, Kannan S, McGregor A, Suri S, Zhang J (2005) On graph problems in
+  a semi-streaming model.
+\newblock Theor Comput Sci 348: 207--216.
+\bibAnnoteFile{Feigenbaum2005}
+
+\bibitem{Melsted2014}
+Melsted P, Halldorsson BV (2014) {{K}mer{S}tream: streaming algorithms for
+  k-mer abundance estimation}.
+\newblock Bioinformatics 30: 3541--3547.
+\bibAnnoteFile{Melsted2014}
+
+\bibitem{lighter}
+Song L, Florea L, Langmead B (2014) {{L}ighter: fast and memory-efficient
+  sequencing error correction without counting}.
+\newblock Genome Biol 15: 509.
+\bibAnnoteFile{lighter}
+
+\bibitem{Brown2012}
+Brown CT, Howe A, Zhang Q, Pyrkosz AB, Brom TH (2012) A reference-free
+  algorithm for computational normalization of shotgun sequencing data.
+\newblock arXiv : 1203.4802.
+\bibAnnoteFile{Brown2012}
+
+\bibitem{chitsaz}
+Chitsaz H, Yee-Greenbaum JL, Tesler G, Lombardo MJ, Dupont CL, et~al. (2011)
+  {{E}fficient de novo assembly of single-cell bacterial genomes from
+  short-read data sets}.
+\newblock Nat Biotechnol 29: 915--921.
+\bibAnnoteFile{chitsaz}
+
+\bibitem{trinityrna}
+Grabherr MG, Haas BJ, Yassour M, Levin JZ, Thompson DA, et~al. (2011)
+  {{F}ull-length transcriptome assembly from {R}{N}{A}-{S}eq data without a
+  reference genome}.
+\newblock Nat Biotechnol 29: 644--652.
+\bibAnnoteFile{trinityrna}
+
+\bibitem{podar}
+Shakya M, Quince C, Campbell JH, Yang ZK, Schadt CW, et~al. (2013)
+  {{C}omparative metagenomic and r{R}{N}{A} microbial diversity
+  characterization using archaeal and bacterial synthetic communities}.
+\newblock Environ Microbiol 15: 1882--1899.
+\bibAnnoteFile{podar}
+
+\bibitem{hll}
+Flajolet P, Fusy {\'E}, Gandouet O, Meunier F (2008) Hyperloglog: the analysis
+  of a near-optimal cardinality estimation algorithm.
+\newblock DMTCS Proceedings .
+\bibAnnoteFile{hll}
+
+\bibitem{Lowe2015}
+Lowe EK, Swalla B, Brown C (2014) {{E}valuating a lightweight transcriptome
+  assembly pipeline on two closely related ascidian species.}
+\newblock PeerJ Preprints 2.
+\bibAnnoteFile{Lowe2015}
+
+\bibitem{jellyfish}
+Marcais G, Kingsford C (2011) {{A} fast, lock-free approach for efficient
+  parallel counting of occurrences of k-mers}.
+\newblock Bioinformatics 27: 764--770.
+\bibAnnoteFile{jellyfish}
+
+\bibitem{schaling2011boost}
+Sch{\"a}ling B (2011) The boost C++ libraries.
+\newblock Boris Sch{\"a}ling.
+\bibAnnoteFile{schaling2011boost}
+
+\bibitem{bowtie2}
+Langmead B, Salzberg SL (2012) {{F}ast gapped-read alignment with {B}owtie 2}.
+\newblock Nat Methods 9: 357--359.
+\bibAnnoteFile{bowtie2}
+
+\bibitem{pubmed21926975}
+Chitsaz H, Yee-Greenbaum J, Tesler G, Lombardo M, Dupont C, et~al. (2011)
+  Efficient de novo assembly of single-cell bacterial genomes from short-read
+  data sets.
+\newblock Nat Biotechnol 29: 915-21.
+\bibAnnoteFile{pubmed21926975}
+
+\bibitem{Roberts2011}
+Roberts A, Pachter L (2011) {{R}{N}{A}-{S}eq and find: entering the {R}{N}{A}
+  deep field}.
+\newblock Genome Med 3: 74.
+\bibAnnoteFile{Roberts2011}
+
+\bibitem{Medvedev2011}
+Medvedev P, Scott E, Kakaradov B, Pevzner P (2011) Error correction of
+  high-throughput sequencing datasets with non-uniform coverage.
+\newblock Bioinformatics 27: i137-41.
+\bibAnnoteFile{Medvedev2011}
+
+\bibitem{seecer}
+Le HS, Schulz MH, McCauley BM, Hinman VF, Bar-Joseph Z (2013) {{P}robabilistic
+  error correction for {R}{N}{A} sequencing}.
+\newblock Nucleic Acids Res 41: e109.
+\bibAnnoteFile{seecer}
+
+\bibitem{freclu}
+Qu W, Hashimoto S, Morishita S (2009) {{E}fficient frequency-based de novo
+  short-read clustering for error trimming in next-generation sequencing}.
+\newblock Genome Res 19: 1309--1315.
+\bibAnnoteFile{freclu}
+
+\bibitem{Howe2014}
+Howe AC, Jansson JK, Malfatti SA, Tringe SG, Tiedje JM, et~al. (2014) Tackling
+  soil diversity with the assembly of large, complex metagenomes.
+\newblock Proc Natl Acad Sci U S A 111: 4904-9.
+\bibAnnoteFile{Howe2014}
+
+\bibitem{Haas2013}
+Haas BJ, Papanicolaou A, Yassour M, Grabherr M, Blood PD, et~al. (2013) De novo
+  transcript sequence reconstruction from rna-seq using the trinity platform
+  for reference generation and analysis.
+\newblock Nat Protoc 8: 1494-512.
+\bibAnnoteFile{Haas2013}
+
+\bibitem{waterman}
+Lander ES, Waterman MS (1988) {{G}enomic mapping by fingerprinting random
+  clones: a mathematical analysis}.
+\newblock Genomics 2: 231--239.
+\bibAnnoteFile{waterman}
+
+\bibitem{drisee}
+Keegan KP, Trimble WL, Wilkening J, Wilke A, Harrison T, et~al. (2012) {{A}
+  platform-independent method for detecting errors in metagenomic sequencing
+  data: {D}{R}{I}{S}{E}{E}}.
+\newblock PLoS Comput Biol 8: e1002541.
+\bibAnnoteFile{drisee}
+
+\bibitem{biases}
+Dohm JC, Lottaz C, Borodina T, Himmelbauer H (2008) {{S}ubstantial biases in
+  ultra-short read data sets from high-throughput {D}{N}{A} sequencing}.
+\newblock Nucleic Acids Res 36: e105.
+\bibAnnoteFile{biases}
+
+\bibitem{Pell2012}
+Pell J, Hintze A, Canino-Koning R, Howe A, Tiedje JM, et~al. (2012) Scaling
+  metagenome sequence assembly with probabilistic de bruijn graphs.
+\newblock Proc Natl Acad Sci U S A 109: 13272-7.
+\bibAnnoteFile{Pell2012}
+
+\bibitem{pacbio}
+Eid J, Fehr A, Gray J, Luong K, Lyle J, et~al. (2009) {{R}eal-time {D}{N}{A}
+  sequencing from single polymerase molecules}.
+\newblock Science 323: 133--138.
+\bibAnnoteFile{pacbio}
+
+\bibitem{nanopore}
+Howorka S, Cheley S, Bayley H (2001) {{S}equence-specific detection of
+  individual {D}{N}{A} strands using engineered nanopores}.
+\newblock Nat Biotechnol 19: 636--639.
+\bibAnnoteFile{nanopore}
+
+\end{thebibliography}
